@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    <h1>Upload Audio</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".mp3, .wav">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if file_size_var %}
+    <h2>File Size</h2>
+    <p>{{ file_size_var }}</p>
+    {% endif %}
+
+    {% if bitrate_var %}
+    <h2>Bitrate</h2>
+    <p>{{ bitrate_var }}</p>
+    {% endif %}
+
+    {% if plot_path_decibels_var %}
+    <h2>Decibels</h2>
+    <p>{{ decibels_var }}</p>
+    {% endif %}
+
+    {% if tempo %}
+    <h2>Tempo</h2>
+    <p>{{ tempo }} BPM</p>
+    {% endif %}
+
+    
+    {% if plot_path_sr_var %}
+    <h2>Waveform with Sampling Rate</h2>
+    <img src="{{ plot_path_sr_var }}" alt="Waveform with Sampling Rate">
+    {% endif %}
+
+    {% if loudness_plot_path %}
+    <h2>Loudness Plot</h2>
+    <img src="{{ loudness_plot_path }}" alt="Loudness Plot">
+    {% endif %}
+
+    {% if waveform_plot_path %}
+    <h2>Waveform Plot</h2>
+    <img src="{{ waveform_plot_path }}" alt="Waveform Plot">
+    {% endif %}
+
+    {% if silence_speech_ratio_plot_path %}
+    <h2>Silence Speech Ratio Pie Plot</h2>
+    <img src="{{ silence_speech_ratio_plot_path }}" alt="Silence Speech Ratio Pie Plot">
+    {% endif %}
+
+    {% if harmonicity_plot_path %}
+    <h2>Harmonicity Plot</h2>
+    <img src="{{ harmonicity_plot_path }}" alt="Harmonicity Plot">
+    {% endif %}
+
+    {% if frequency_plot_path %}
+    <h2>Frequency Plot</h2>
+    <img src="{{ frequency_plot_path }}" alt="Frequency Plot">
+    {% endif %}
+
+</body>
+</html>
