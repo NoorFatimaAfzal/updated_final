@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2024 at 08:33 AM
+-- Generation Time: Jun 11, 2024 at 03:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `uploads` (
   `audio_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `filename` varchar(255) NOT NULL,
   `bitrate` int(11) NOT NULL,
   `frequency_plot_path` varchar(255) NOT NULL,
@@ -39,16 +39,17 @@ CREATE TABLE `uploads` (
   `plot_path_sr` varchar(255) NOT NULL,
   `harmonicity_plot_path` varchar(255) NOT NULL,
   `decibals` double NOT NULL,
-  `tempo` double NOT NULL,
-  `file_size` double NOT NULL
+  `file_size` double NOT NULL,
+  `tempo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `uploads`
 --
 
-INSERT INTO `uploads` (`audio_id`, `user_id`, `filename`, `bitrate`, `frequency_plot_path`, `waveform_plot_path`, `silence_speech_ratio_plot_path`, `plot_path_decibels`, `plot_path_sr`, `harmonicity_plot_path`, `decibals`, `tempo`, `file_size`) VALUES
-(16, 8, '20240608183241_thirdfile.mp3', 64000, 'static\\Noor_20240608183241_thirdfile.mp3_loudness_plot.png', 'static\\Noor_20240608183241_thirdfile.mp3_waveform_with_peak.png', 'static\\Noor_20240608183241_thirdfile.mp3_silence_speech_ratio.png', 'static\\Noor_20240608183241_thirdfile.mp3_plot_path_sr.png', 'static\\Noor_20240608183241_thirdfile.mp3_waveform_with_sampling_rate.png', 'static\\Noor_20240608183241_thirdfile.mp3_harmonicity.png', 0, 0, 0);
+INSERT INTO `uploads` (`audio_id`, `user_id`, `filename`, `bitrate`, `frequency_plot_path`, `waveform_plot_path`, `silence_speech_ratio_plot_path`, `plot_path_decibels`, `plot_path_sr`, `harmonicity_plot_path`, `decibals`, `file_size`, `tempo`) VALUES
+(19, 8, '20240611134122_Zukhraf.mp3', 32000, 'static\\Noor_20240611134122_Zukhraf.mp3_plot_path_sr.png', 'static\\Noor_20240611134122_Zukhraf.mp3_waveform_with_peak.png', 'static\\Noor_20240611134122_Zukhraf.mp3_silence_speech_ratio.png', 'static\\Noor_20240611134122_Zukhraf.mp3_loudness_plot.png', 'static\\Noor_20240611134122_Zukhraf.mp3_waveform_with_sampling_rate.png', 'static\\Noor_20240611134122_Zukhraf.mp3_harmonicity.png', 79.79708046150945, 1.187657356262207, ''),
+(20, 8, '20240611140000_thirdfile.mp3', 64000, 'static\\Noor_20240611140000_thirdfile.mp3_plot_path_sr.png', 'static\\Noor_20240611140000_thirdfile.mp3_waveform_with_peak.png', 'static\\Noor_20240611140000_thirdfile.mp3_silence_speech_ratio.png', 'static\\Noor_20240611140000_thirdfile.mp3_loudness_plot.png', 'static\\Noor_20240611140000_thirdfile.mp3_waveform_with_sampling_rate.png', 'static\\Noor_20240611140000_thirdfile.mp3_harmonicity.png', 79.74141934305672, 2.253829002380371, '[112.34714674]');
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `uploads`
 --
 ALTER TABLE `uploads`
-  MODIFY `audio_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `audio_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `users`
