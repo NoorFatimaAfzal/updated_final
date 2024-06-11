@@ -235,8 +235,8 @@ def upload():
         
         try:
             # Insert upload details into MySQL database
-            cursor.execute('INSERT INTO uploads (user_id,filename, bitrate, loudness_plot_path, waveform_plot_path, silence_speech_ratio_plot_path, frequency_plot_path, plot_path_sr, harmonicity_plot_path,decibals,tempo,file_size) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)', 
-                           (user_id,filename, bitrate, loudness_plot_path, waveform_plot_path, silence_speech_ratio_plot_path, frequency_plot_path, plot_path_sr, harmonicity_plot_path,decibels_with_units,tempo,file_size_mb))
+            cursor.execute('INSERT INTO uploads (user_id,filename, bitrate, plot_path_decibels, waveform_plot_path, silence_speech_ratio_plot_path, frequency_plot_path, plot_path_sr, harmonicity_plot_path,decibals,tempo,file_size) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)', 
+                           (user_id,filename, bitrate, loudness_plot_path, waveform_plot_path, silence_speech_ratio_plot_path, frequency_plot_path, plot_path_sr, harmonicity_plot_path,decibels_value,tempo,file_size_mb))
             conn.commit()
             flash(f"File uploaded successfully with bitrate: {bitrate} kbps")
         except pymysql.MySQLError as e:
@@ -276,17 +276,17 @@ def history():
 
     # Preprocess the paths to replace backslashes with forward slashes
     for upload in uploads:
-        if upload['loudness_plot_path']:
-            upload['loudness_plot_path'] = upload['loudness_plot_path'].replace('\\', '/')
-        if upload['waveform_plot_path']:
+        if upload.get('plot_path_decibels'):
+            upload['loudness_plot_path'] = upload['plot_path_decibels'].replace('\\', '/')
+        if upload.get('waveform_plot_path'):
             upload['waveform_plot_path'] = upload['waveform_plot_path'].replace('\\', '/')
-        if upload['silence_speech_ratio_plot_path']:
+        if upload.get('silence_speech_ratio_plot_path'):
             upload['silence_speech_ratio_plot_path'] = upload['silence_speech_ratio_plot_path'].replace('\\', '/')
-        if upload['frequency_plot_path']:
+        if upload.get('frequency_plot_path'):
             upload['frequency_plot_path'] = upload['frequency_plot_path'].replace('\\', '/')
-        if upload['plot_path_sr']:
+        if upload.get('plot_path_sr'):
             upload['plot_path_sr'] = upload['plot_path_sr'].replace('\\', '/')
-        if upload['harmonicity_plot_path']:
+        if upload.get('harmonicity_plot_path'):
             upload['harmonicity_plot_path'] = upload['harmonicity_plot_path'].replace('\\', '/')
         
         # Removing timestamp from filename
@@ -295,6 +295,7 @@ def history():
         upload['original_filename'] = original_filename
 
     return render_template('history.html', uploads=uploads)
+
 
 @app.route('/download_record/<int:record_id>')
 def download_record(record_id):
@@ -333,11 +334,13 @@ def download_record(record_id):
     c.drawString(100, 730, f"Name: {username}")
     c.drawString(100, 710, f"File Name: {original_filename}")
     c.drawString(100, 690, f"Bitrate: {upload['bitrate']} kbps")
-    c.drawString(100, 670, f"Decibels: {upload['decibels']}")  # Add decibels
+    c.drawString(100, 670, f"Decibels: {upload['decibals']}")  # Add decibels
     c.drawString(100, 650, f"Tempo: {upload['tempo']} BPM")    # Add tempo
+    c.drawString(100, 630, f"File Size: {upload['file_size']} MB")    # Add size
+
 
     # Draw images
-    y_position = 630  # Adjust the starting position for drawing images
+    y_position = 610  # Adjust the starting position for drawing images
 
     def draw_image(image_path, description, c, y_position):
         if y_position < 100:
@@ -353,7 +356,7 @@ def download_record(record_id):
         c.drawInlineImage(image, 100, y_position - 200 * aspect, width=400, height=200 * aspect)
         return y_position - 200 * aspect - 30
 
-    y_position = draw_image(upload['loudness_plot_path'].replace('\\', '/'), "Loudness Plot", c, y_position)
+    y_position = draw_image(upload['plot_path_decibels'].replace('\\', '/'), "Loudness Plot", c, y_position)
     y_position = draw_image(upload['waveform_plot_path'].replace('\\', '/'), "Waveform Plot", c, y_position)
     y_position = draw_image(upload['silence_speech_ratio_plot_path'].replace('\\', '/'), "Silence/Speech Ratio Plot", c, y_position)
     y_position = draw_image(upload['frequency_plot_path'].replace('\\', '/'), "Frequency Plot", c, y_position)
@@ -383,7 +386,7 @@ def download_record(record_id):
 
     return response
 
-@app.route('/delete_record/<int:record_id>', methods=['POST'])
+@app.route('/delete_record/<int:record_id>')
 def delete_record(record_id):
     user_id = session.get('user_id')
     if user_id is None:
@@ -411,7 +414,7 @@ def delete_record(record_id):
 
     # Delete the files from the filesystem
     files_to_delete = [
-        upload['loudness_plot_path'],
+        upload['plot_path_decibels'],
         upload['waveform_plot_path'],
         upload['silence_speech_ratio_plot_path'],
         upload['frequency_plot_path'],

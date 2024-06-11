@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2024 at 07:11 PM
+-- Generation Time: Jun 11, 2024 at 08:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,20 +32,23 @@ CREATE TABLE `uploads` (
   `user_id` int(11) DEFAULT NULL,
   `filename` varchar(255) NOT NULL,
   `bitrate` int(11) NOT NULL,
-  `loudness_plot_path` varchar(255) NOT NULL,
+  `frequency_plot_path` varchar(255) NOT NULL,
   `waveform_plot_path` varchar(255) NOT NULL,
   `silence_speech_ratio_plot_path` varchar(255) NOT NULL,
   `plot_path_decibels` varchar(255) NOT NULL,
   `plot_path_sr` varchar(255) NOT NULL,
-  `harmonicity_plot_path` varchar(255) NOT NULL
+  `harmonicity_plot_path` varchar(255) NOT NULL,
+  `decibals` double NOT NULL,
+  `tempo` double NOT NULL,
+  `file_size` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `uploads`
 --
 
-INSERT INTO `uploads` (`audio_id`, `user_id`, `filename`, `bitrate`, `loudness_plot_path`, `waveform_plot_path`, `silence_speech_ratio_plot_path`, `plot_path_decibels`, `plot_path_sr`, `harmonicity_plot_path`) VALUES
-(16, 8, '20240608183241_thirdfile.mp3', 64000, 'static\\Noor_20240608183241_thirdfile.mp3_loudness_plot.png', 'static\\Noor_20240608183241_thirdfile.mp3_waveform_with_peak.png', 'static\\Noor_20240608183241_thirdfile.mp3_silence_speech_ratio.png', 'static\\Noor_20240608183241_thirdfile.mp3_plot_path_sr.png', 'static\\Noor_20240608183241_thirdfile.mp3_waveform_with_sampling_rate.png', 'static\\Noor_20240608183241_thirdfile.mp3_harmonicity.png');
+INSERT INTO `uploads` (`audio_id`, `user_id`, `filename`, `bitrate`, `frequency_plot_path`, `waveform_plot_path`, `silence_speech_ratio_plot_path`, `plot_path_decibels`, `plot_path_sr`, `harmonicity_plot_path`, `decibals`, `tempo`, `file_size`) VALUES
+(16, 8, '20240608183241_thirdfile.mp3', 64000, 'static\\Noor_20240608183241_thirdfile.mp3_loudness_plot.png', 'static\\Noor_20240608183241_thirdfile.mp3_waveform_with_peak.png', 'static\\Noor_20240608183241_thirdfile.mp3_silence_speech_ratio.png', 'static\\Noor_20240608183241_thirdfile.mp3_plot_path_sr.png', 'static\\Noor_20240608183241_thirdfile.mp3_waveform_with_sampling_rate.png', 'static\\Noor_20240608183241_thirdfile.mp3_harmonicity.png', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,10 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
 (2, 'Areeba', 'areeba@gmail.com', '12345'),
 (6, 'Aliha', 'alihaali@gmail.com', '54321'),
 (7, 'Hadia', 'hadia@gmail.com', '789'),
-(8, 'Noor', 'noor@gmail.com', '12345');
+(8, 'Noor', 'noor@gmail.com', '12345'),
+(9, 'roshni', 'sbdncv@hsdc', 'r123'),
+(10, 'sdf', 'sdfg@7', 'asdf'),
+(11, 'fatima', 'fdg@jhg', 'f123');
 
 --
 -- Indexes for dumped tables
@@ -104,7 +110,7 @@ ALTER TABLE `uploads`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

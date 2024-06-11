@@ -13,9 +13,9 @@
                 <th>File Name</th>
                 <th>Audio File</th>
                 <th>Bitrate</th>
-                <th>decibels_var</th>
-                <th>Tempo</th>
-                <th>file_size_var</th>
+                <th>Decibels</th>
+                <th>Tempo Value</th>
+                <th>File Size</th>
                 <th>Loudness Plot</th>
                 <th>Waveform Plot</th>
                 <th>Silence/Speech Ratio Plot</th>
@@ -23,6 +23,7 @@
                 <th>Sampling Rate Plot</th>
                 <th>Harmonicity Plot</th>
                 <th>Download</th>
+                <th>Delete Record</th>
             </tr>
         </thead>
         <tbody>
@@ -36,16 +37,53 @@
                     </audio>
                 </td>
                 <td>{{ upload.bitrate }}</td>
-                <td>{{ upload.decibels }}</td>
+                <td>{{ upload.decibals }}</td>
                 <td>{{ upload.tempo }}</td>
                 <td>{{ upload.file_size }}</td>
-                <td><img src="{{ url_for('static', filename=upload.loudness_plot_path.split('/')[-1]) }}" alt="Loudness Plot" class="img-thumbnail"></td>
-                <td><img src="{{ url_for('static', filename=upload.waveform_plot_path.split('/')[-1]) }}" alt="Waveform Plot"class="img-thumbnail"></td>
-                <td><img src="{{ url_for('static', filename=upload.silence_speech_ratio_plot_path.split('/')[-1]) }}" alt="Silence/Speech Ratio Plot" class="img-thumbnail"></td>
-                <td><img src="{{ url_for('static', filename=upload.frequency_plot_path.split('/')[-1]) }}" alt="Decibels Plot" class="img-thumbnail"></td>
-                <td><img src="{{ url_for('static', filename=upload.plot_path_sr.split('/')[-1]) }}" alt="Sampling Rate Plot" class="img-thumbnail"></td>
-                <td><img src="{{ url_for('static', filename=upload.harmonicity_plot_path.split('/')[-1]) }}" alt="Harmonicity Plot" class="img-thumbnail"></td>
+                <td>
+                    {% if upload.loudness_plot_path %}
+                      <img src="{{ url_for('static', filename=upload.loudness_plot_path.split('/')[-1]) }}" alt="Loudness Plot" class="img-thumbnail">
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if upload.loudness_plot_path %}
+                    <img src="{{ url_for('static', filename=upload.waveform_plot_path.split('/')[-1]) }}" alt="Waveform Plot"class="img-thumbnail">
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td>  
+                  <td>
+                    {% if upload.loudness_plot_path %}
+                    <img src="{{ url_for('static', filename=upload.silence_speech_ratio_plot_path.split('/')[-1]) }}" alt="Silence/Speech Ratio Plot" class="img-thumbnail">
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td>
+                      <td>
+                    {% if upload.loudness_plot_path %}
+                    <img src="{{ url_for('static', filename=upload.frequency_plot_path.split('/')[-1]) }}" alt="Decibels Plot" class="img-thumbnail">
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td> 
+                     <td>
+                    {% if upload.loudness_plot_path %}
+                    <img src="{{ url_for('static', filename=upload.plot_path_sr.split('/')[-1]) }}" alt="Sampling Rate Plot" class="img-thumbnail">
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td> 
+                     <td>
+                    {% if upload.loudness_plot_path %}
+                    <img src="{{ url_for('static', filename=upload.harmonicity_plot_path.split('/')[-1]) }}" alt="Harmonicity Plot" class="img-thumbnail">
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td>
                 <td><a href="{{ url_for('download_record', record_id=upload.audio_id) }}" class="btn btn-primary">Download</a></td>
+                <td><a href="{{ url_for('delete_record', record_id=upload.audio_id) }}" class="btn btn-primary">Delete</a></td>
             </tr>
             {% endfor %}
         </tbody>
